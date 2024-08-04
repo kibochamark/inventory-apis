@@ -1,6 +1,6 @@
 
-import { decimal, integer, json, pgEnum, pgTable, primaryKey, serial, text, timestamp, varchar, numeric, boolean } from "drizzle-orm/pg-core";
-import { InferModel, SQL, relations } from "drizzle-orm";
+import { InferModel,relations } from "drizzle-orm";
+import { pgTable, serial, text, integer, decimal, timestamp, varchar, boolean } from "drizzle-orm/pg-core";
 
 
 
@@ -34,7 +34,7 @@ export const inventory = pgTable("inventory", {
     id: serial('id').primaryKey(),
     name: text('name').notNull().unique(),
     quantity:integer("quantity").notNull(),
-    description: text('description'),
+    description: text('description').notNull(),
     category_id:integer('category_id').references(() => categories.id).notNull(),
     price: decimal('price', {
         precision:10,
@@ -62,14 +62,12 @@ export const categories = pgTable("categories", {
 
 
 
-// Relations
-export const inventoryRelations = relations(inventory, ({ one, many }) => ({
-    categories:one(categories)
-    
+export const inventoryRelations = relations(inventory, ({ one }) => ({
+    category: one(categories)
 }));
-// Relations
-export const categoryRelation  = relations(categories, ({ one, many }) => ({
-    inventories:many(inventory)
+
+export const categoryRelations = relations(categories, ({ many }) => ({
+    inventories: many(inventory)
 }));
 
 
@@ -85,5 +83,6 @@ export type InsertUser = InferModel<typeof users, 'insert'>;
 // cApi types
 export type Category = InferModel<typeof categories, 'select'>;
 export type InsertCategory = InferModel<typeof categories, 'insert'>;
+export type InsertInventory = InferModel<typeof inventory, 'insert'>;
 
 export type AccessRefreshToken = InferModel<typeof accessrefreshTokens, 'insert'>

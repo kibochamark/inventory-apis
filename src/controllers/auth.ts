@@ -1,10 +1,10 @@
-import { createUser, getUser, insertToken, updateAccessBlacklist } from "../drizzle/authFunctions";
+import { createUser, getTokenBlacklist, getUser, insertToken, updateAccessBlacklist, updateToken } from "../drizzle/authFunctions";
 import { Request, Response } from "express";
 import Joi from "joi";
 import { checkPassword, createHash } from "../utils/passwordUtil";
 import { generateRefreshToken, generateTokens, getPayloadFromToken } from "../utils/tokenutils";
 
-// Define the validation schema
+// validation schema
 const userSchema = Joi.object({
     username: Joi.string().min(3).max(30).required(),
     email: Joi.string().email().required(),
@@ -80,12 +80,26 @@ export async function loginUser(req: Request, res: Response) {
                     username: user[0]?.username
                 })
 
-                await insertToken({
-                    user_id: user[0]?.id,
-                    access_token: accessToken,
-                    refresh_token: refreshToken,
-                    access_blacklisted:false
-                })
+                const tokenexists = await getTokenBlacklist(user[0]?.id)
+                console.log(tokenexists)
+                if (tokenexists.length > 0) {
+                    await updateToken(
+                        {
+                            user_id: user[0]?.id,
+                            access_token: accessToken,
+                            refresh_token: refreshToken,
+                            access_blacklisted: false
+                        }, user[0]?.id
+                    )
+                } else {
+                    await insertToken({
+                        user_id: user[0]?.id,
+                        access_token: accessToken,
+                        refresh_token: refreshToken,
+                        access_blacklisted: false
+                    })
+                }
+
 
                 return res.status(200).json({
                     message: "logged in successfull",
@@ -109,19 +123,19 @@ export async function loginUser(req: Request, res: Response) {
 }
 
 
-export async function logout(req:Request, res:Response){
-    try{
-        const authHeader = req.headers.authorization;  
+export async function logout(req: Request, res: Response) {
+    try {
+        const authHeader = req.headers.authorization;
 
-        const payload= await getPayloadFromToken(authHeader)
-        
+        const payload = await getPayloadFromToken(authHeader)
+
         const token = await updateAccessBlacklist(true, payload?.id)
 
         return res.status(200).json({
-            message:"logged out successfully",
+            message: "logged out successfully",
 
         }).end()
-    }catch(e:any){
+    } catch (e: any) {
         return res.status(500).json({
             error: e?.message,
         }).end()

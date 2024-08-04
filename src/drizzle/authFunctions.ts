@@ -38,6 +38,10 @@ export const insertToken=async(tokenObj:AccessRefreshToken)=>{
     return await
      db.insert(accessrefreshTokens).values(tokenObj)
 }
+export const updateToken=async(tokenObj:AccessRefreshToken, userid:number)=>{
+    return await
+     db.update(accessrefreshTokens).set(tokenObj).where(eq(accessrefreshTokens.user_id, userid))
+}
 
 
 // retieve user access token as well as if blacklisted in order to logout user
