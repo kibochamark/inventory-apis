@@ -5,6 +5,6 @@ export default defineConfig({
   schema: "./src/drizzle/schema.ts",
   out: "./drizzle",
   dbCredentials: {
-    url: "postgres://default:rIuSWyom4z9U@ep-snowy-morning-a4a7632h.us-east-1.aws.neon.tech:5432/verceldb?sslmode=require",
+    url: "postgres://default:idqWZ2RsQ3ef@ep-summer-smoke-a4nod18e.us-east-1.aws.neon.tech:5432/verceldb?sslmode=require"
   },
 });

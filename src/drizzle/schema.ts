@@ -1,5 +1,5 @@
 
-import { decimal, integer, json, pgEnum, pgTable, primaryKey, serial, text, timestamp, varchar, numeric } from "drizzle-orm/pg-core";
+import { decimal, integer, json, pgEnum, pgTable, primaryKey, serial, text, timestamp, varchar, numeric, boolean } from "drizzle-orm/pg-core";
 import { InferModel, SQL, relations } from "drizzle-orm";
 
 
@@ -18,13 +18,16 @@ export const users = pgTable("users", {
 
 
 // RefreshTokens Table
-export const refreshTokens = pgTable("refresh_tokens", {
+export const accessrefreshTokens = pgTable("access_refresh_tokens", {
     id: serial('id').primaryKey(),
     user_id: integer('user_id').references(() => users.id).notNull(),
-    token: text('token').notNull(),
+    access_token: text('access_token').notNull(),
+    refresh_token: text('refresh_token').notNull(),
+    access_blacklisted: boolean("access_blacklisted").notNull(), // Ensure this is correct
     created_at: timestamp('created_at').defaultNow(),
     updated_at: timestamp("updated_at").defaultNow().$onUpdate(() => new Date())
 });
+
 
 // Products Table
 export const inventory = pgTable("inventory", {
@@ -83,6 +86,4 @@ export type InsertUser = InferModel<typeof users, 'insert'>;
 export type Category = InferModel<typeof categories, 'select'>;
 export type InsertCategory = InferModel<typeof categories, 'insert'>;
 
-export type RefreshToken = InferModel<typeof refreshTokens, 'insert'>;
-
-
+export type AccessRefreshToken = InferModel<typeof accessrefreshTokens, 'insert'>

@@ -4,6 +4,7 @@ import cors from "cors"
 import dotenv from "dotenv"
 import compression from "compression"
 import cookieParser from "cookie-parser"
+import routes from "./routes/index"
 
 
 
@@ -26,6 +27,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors({ credentials: true }));
 app.use(compression());
 app.use(cookieParser());
+app.use("/api/v1", routes)
 
 
 

@@ -1,11 +1,14 @@
 import {drizzle} from "drizzle-orm/node-postgres"
 import pg from 'pg';
-import schema from "../drizzle/schema"
+import * as schema from "../drizzle/schema"
+import dotenv from "dotenv"
+
+dotenv.config()
 
 const { Pool } = pg;
 
 const pool = new Pool({
-  connectionString: "postgresql://default:rIuSWyom4z9U@ep-snowy-morning-a4a7632h.us-east-1.aws.neon.tech:5432/verceldb?sslmode=require",
+  connectionString: process.env.POSTGRES_URL!,
 })
 
 
