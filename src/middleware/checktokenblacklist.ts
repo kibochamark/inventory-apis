@@ -8,7 +8,7 @@ const checkTokenBlacklist = async (req: express.Request, res: express.Response, 
         return res.status(401).json({ message: 'Access token missing or malformed' });
     }
 
-    try{
+    try {
 
         const userpayload = await getPayloadFromToken(authHeader);
         const user = await getTokenBlacklist(userpayload?.id)
@@ -16,11 +16,11 @@ const checkTokenBlacklist = async (req: express.Request, res: express.Response, 
         if (user && user[0]?.blacklisted) {
             return res.status(403).json({ message: 'Token is blacklisted' });
         }
-    
+
         next();
-    }catch (err) {
+    } catch (err) {
         res.status(403).json({ message: 'Invalid or expired access token' });
-      }
+    }
 
 };
 
