@@ -4,6 +4,7 @@ import express from 'express';
 import authMiddleware from '../middleware/authMiddlware';
 import { insertCategory, putCategory, removeCategory, retrieveCategories, retrieveCategory, retrieveInventoriesCountByCategory } from '../controllers/category';
 import { InsertInventory, putInventory, removeInvetory, retrieveInventories, retrieveInventory } from '../controllers/inventory';
+import { getDashboardData } from '../controllers/dashboard';
 
 
 const routes = express.Router();
@@ -29,5 +30,8 @@ routes.get("/getinventory/:id",authMiddleware, checkTokenBlacklist, retrieveInve
 routes.get("/getinventories",authMiddleware, checkTokenBlacklist, retrieveInventories)
 routes.delete("/deleteinventory/:id",authMiddleware, checkTokenBlacklist, removeInvetory)
 
+
+// dashboard
+routes.get("/getdashboarddata",authMiddleware, checkTokenBlacklist, getDashboardData)
 
 export default routes;
