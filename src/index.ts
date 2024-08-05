@@ -60,6 +60,7 @@ app.use("/api/v1", routes)
 //     }
 // });
 
+export default app
 
 
 app.listen(8000, ()=>{
