@@ -2,12 +2,14 @@
 
 This document provides information on the API endpoints available for the Inventory App. The API is designed to handle various operations related to inventory management, including retrieving stock data, adding items, and updating inventory details.
 
+You can find more details on [Post api doc](https://documenter.getpostman.com/view/36984250/2sA3rxptMN) postman documentation
+
 ## Base URL
 
 All API endpoints are accessed through the base URL:
 
 ```
-http://localhost:3000/api
+http://localhost:3000/apiv1/
 ```
 
 ## Authentication
@@ -211,16 +213,3 @@ Errors are returned with a status code and a message describing the issue:
 
 API requests are subject to rate limiting to ensure fair usage. The rate limits are set to prevent abuse and to ensure optimal performance.
 
-## Contact
-
-For any questions or support, please reach out to:
-
-- Email: support@example.com
-- GitHub: [Inventory App Repository](https://github.com/your-repository)
-
----
-
-This README provides an overview of the API endpoints available in the Inventory App. For detailed information on request parameters and response formats, please refer to the individual endpoint documentation.
-```
-
-Feel free to adjust the contact information and any other specifics to fit your project.
